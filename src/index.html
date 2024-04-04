@@ -1,14 +1,141 @@
-!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Chilanka&family=Edu+QLD+Beginner:wght@400..700&family=Indie+Flower&display=swap" rel="stylesheet">
+    <title>Tela de cálculo</title>
+    <style>
+        body {
+            font-family: 'Chilanka';
+            background-image: linear-gradient(45deg, cyan, CornflowerBlue);
+            background-image: url(../Imagens/pxfuel.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 100vh; /* Comando faz com que a imagem de fundo ocupe toda a altura da tela */
+    
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 17%;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: auto;
+            padding: 10px;
+            border-radius: 15px;
+        }
+        input {
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            margin: auto;   
+        }
+        button {
+            background-color: cyan;
+            padding: 5px;
+            width: 35%; 
+            border: none;
+            border-radius: 5px;
+            font-family: 'Segoe UI';
+            font-size: 15px;
+            float: right;
+        }
+        button:hover {
+            background-color: Khaki;
+            cursor: pointer;
+        }  
+        #info {
+            display: none;    
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 17%;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: auto;
+            padding: 10px;
+            border-radius: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Olá JavaScritp</h1>
+ 
+    <div class="container">    
+        <h1>Cálculo da Conta</h1>
+        <label for="numero-mesa">Número da Mesa:</label>
+        <input type="number" id="numero-mesa" placeholder="Nº Mesa">
+        <p>
+        <label for="numero-pessoas">Nº de Pessoas na Mesa:</label>
+        <input type="number" id="numero-pessoas" placeholder="Nº Pessoas">
+        <p>
+        <label for="valor-mesa">Valor Total da Mesa:</label>
+        <input type="number" id="valor-mesa" placeholder="R$">
+        <p>
+        <label for="incluir-gorjeta">Deseja incluir gorjeta correspondente a 3% do valor da conta?</label>
+        <select id="incluir-gorjeta">
+            <option value="S">Sim</option>    
+            <option value="N">Não</option>
+        </select>
+        <p>
+        <label for="metodo-pagamento">Forma de pagamento:</label>
+        <select id="metodo-pagamento">
+            <option value="Pix">Pix - c/ 10% de desconto</option>
+            <option value="Dinheiro">Dinheiro - c/ 10% de desconto</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+        </select>
+        <p>
+        
+        <button id="botao-calcular">Enviar</button>
+    </div>
 
-    <script src="script.js"></script>
+    
+    <div id="info"></div>
+    <script>
+        document.getElementById('botao-calcular').addEventListener('click', function() {
+            var numMesa = parseInt(document.getElementById('numero-mesa').value);
+            var numPessoas = parseInt(document.getElementById('numero-pessoas').value);
+            var valorTotal = parseFloat(document.getElementById('valor-mesa').value);
+
+            var incluirGorjeta = document.getElementById('incluir-gorjeta').value.toUpperCase();
+
+            var metodoPagamento = document.getElementById('metodo-pagamento').value;
+
+            var gorjeta = 0;
+            if(incluirGorjeta === "S"){
+                gorjeta = valorTotal * 0.03;
+            }
+
+            valorTotal += gorjeta;
+
+            var totalComDesconto = valorTotal;
+            if (metodoPagamento === "Pix" || metodoPagamento === "Dinheiro") {
+                totalComDesconto = valorTotal * 0.9;
+                console.log("\nValor com desconto de 10%");
+            }
+            
+            var valorPorPessoa = totalComDesconto / numPessoas;
+
+            document.getElementById('info').style.display = 'block';
+
+            var infoDiv = document.getElementById ('info');
+            infoDiv.innerHTML = "<h2>Informações da Conta</h2>" +
+                                "<p>Número da Mesa: " + numMesa + "</p>" +
+                                "<p>Nº de Pessoas na Mesa: " + numPessoas + "</p>" +
+                                "<p>Valor Total da Mesa: R$ " + valorTotal.toFixed(2) + "</p>" +
+                                "<p>Gorjeta: R$ " + gorjeta.toFixed(2) + "</p>" +
+                                "<p>Forma de Pagamento: " + metodoPagamento + "</p>" +
+                                "<p>Total com Desconto: R$ " + totalComDesconto.toFixed(2) + "</p>" +
+                                "<p>Valor por Pessoa: R$ " + valorPorPessoa.toFixed(2) + "</p>";
+        });
+    </script>
 </body>
-</html>
+</html> 
